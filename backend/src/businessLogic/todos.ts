@@ -32,9 +32,8 @@ export async function createTodo(todoRequest: CreateTodoRequest, userId: string)
       userId: userId,
       todoId: todoId,
       createdAt: new Date().toLocaleString(),
+      title: todoRequest.title,
       name: todoRequest.name,
-      dueDate: todoRequest.dueDate,
-      done: false,
       attachmentUrl: todoRequest.attachmentUrl
     }
 

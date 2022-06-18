@@ -54,7 +54,7 @@ export class TodosAccess {
   }
 
   async insertTodoItem(todoItem: TodoItem) {
-    let input = { "userId": todoItem.userId, "todoId": todoItem.todoId, "createdAt": todoItem.createdAt, "done": todoItem.done, "name": todoItem.name, "attachmentUrl": todoItem.attachmentUrl, "dueDate": todoItem.dueDate }
+    let input = { "userId": todoItem.userId, "todoId": todoItem.todoId, "createdAt": todoItem.createdAt, "name": todoItem.name, "title": todoItem.title, "attachmentUrl": todoItem.attachmentUrl }
     const params: DocumentClient.PutItemInput = {
       TableName: this.todosTable,
       Item: input
@@ -79,9 +79,9 @@ export class TodosAccess {
         todoId,
         userId
       },
-      UpdateExpression: 'set #nm = :name, dueDate = :dueDate, done = :done',
+      UpdateExpression: 'set #nm = :name, title = :title',
       ExpressionAttributeNames: {"#nm": "name"},
-      ExpressionAttributeValues: { ':name': updatedTodoItem.name, ':dueDate': updatedTodoItem.dueDate, ':done': updatedTodoItem.done },
+      ExpressionAttributeValues: { ':name': updatedTodoItem.name, ':title': updatedTodoItem.title },
     }
     try {
       await this.docClient.update(params, function(err) {
