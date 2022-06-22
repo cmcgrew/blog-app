@@ -1,7 +1,7 @@
 {
-  "name": "serverless-todo-app",
+  "name": "serverless-blog-app",
   "version": "1.0.0",
-  "description": "Serverless TODO image app",
+  "description": "Serverless BLOG image app",
   "dependencies": {
     "@types/axios": "^0.14.0",
     "@types/http-errors": "^1.6.1",
@@ -49,7 +49,7 @@
   },
   "scripts": {
     "testMocha": "mocha -r ts-node/register test/**/*.test.ts",
-    "test": "jest --coverage --coverageDirectory=coverage --config=./jest.config.js"
+    "test": "jest --coverage --config=./jest.config.js"
   },
   "author": "Ivan Mushketyk",
   "license": "MIT"

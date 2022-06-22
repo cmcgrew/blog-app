@@ -2,10 +2,10 @@ import 'source-map-support/register'
 
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import middy from 'middy'
-import { cors, httpErrorHandler } from 'middy/middlewares'
+import { cors } from 'middy/middlewares'
 
-import { createAttachmentPresignedUrl } from '../../businessLogic/blogs'
-import { getUserId } from '../utils'
+import { getBlogForUser as getBlogForUser } from '../../businessLogic/blogs'
+import { getUserId } from '../utils';
 
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
@@ -22,19 +22,16 @@ export const handler = middy(
         })
       }
     }
-    
-    const blogId = event.pathParameters.blogId
-    const userId : string = getUserId(event)    
 
     try {
-      const signedUrl = await createAttachmentPresignedUrl(blogId, userId)
+      const response = await getBlogForUser(getUserId(event))
       return {
         statusCode: 200,
         headers: {
           'Access-Control-Allow-Origin': '*'
         },
         body: JSON.stringify({
-          uploadUrl: signedUrl
+          items: response.Items
         })
       }
     } catch (err) {
@@ -50,21 +47,14 @@ export const handler = middy(
     }
   }
 )
-
-handler
-  .use(httpErrorHandler())
-  .use(
-    cors({
-      credentials: true
-    })
-  )
+handler.use(
+  cors({
+    credentials: true
+  })
+)
 
 function validateParameters(event) {
-if(!event) {
-  throw 'event is required'
-} else {
-  if(!event.pathParameters) {
-    throw 'id is required in path params'
+  if(!getUserId(event)) {
+    throw 'userId is required'
   }
-}
 }

@@ -1,6 +1,6 @@
 org: cmmcgrew
-app: serverless-todo-app
-service: serverless-todo-app
+app: serverless-blog-app
+service: serverless-blog-app
 
 plugins:
   - serverless-webpack
@@ -21,9 +21,9 @@ provider:
     apiGateway: true
 
   environment:
-    TODOS_TABLE: Todos-${self:provider.stage}
-    TODOS_CREATED_AT_INDEX: CreatedAtIndex
-    ATTACHMENT_S3_BUCKET: serverless-c4-todo-images-154524364323-${self:provider.stage}
+    BLOGS_TABLE: Blog-${self:provider.stage}
+    BLOGS_CREATED_AT_INDEX: CreatedAtIndex
+    ATTACHMENT_S3_BUCKET: serverless-c4-blog-images-154524364323-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
 
 
@@ -36,13 +36,13 @@ functions:
   Auth:
     handler: src/lambda/auth/auth0Authorizer.handler
 
-  GetTodos:
-    handler: src/lambda/http/getTodos.handler
+  GetBlog:
+    handler: src/lambda/http/getBlog.handler
     tracing: true
     events:
       - http:
           method: get
-          path: todos
+          path: blogs
           cors: true
           authorizer: Auth
     iamRoleStatements:
@@ -51,65 +51,65 @@ functions:
           - dynamodb:GetItem
           - dynamodb:Query
           - dynamodb:Scan  
-        Resource: "arn:aws:dynamodb:${self:provider.region}:154524364323:table/${self:provider.environment.TODOS_TABLE}"
+        Resource: "arn:aws:dynamodb:${self:provider.region}:154524364323:table/${self:provider.environment.BLOGS_TABLE}"
       - Effect: "Allow"        
         Action:
           - dynamodb:GetItem
           - dynamodb:Query
           - dynamodb:Scan  
-        # Resource: arn:aws:dynamodb:us-east-1:154524364323:table/Todos-${self:provider.stage}/index/CreatedAtIndex
-        Resource: arn:aws:dynamodb:${self:provider.region}:154524364323:table/${self:provider.environment.TODOS_TABLE}/index/${self:provider.environment.TODOS_CREATED_AT_INDEX}
+        # Resource: arn:aws:dynamodb:us-east-1:154524364323:table/Blog-${self:provider.stage}/index/CreatedAtIndex
+        Resource: arn:aws:dynamodb:${self:provider.region}:154524364323:table/${self:provider.environment.BLOGS_TABLE}/index/${self:provider.environment.BLOGS_CREATED_AT_INDEX}
 
-  CreateTodo:
-    handler: src/lambda/http/createTodo.handler
+  CreateBlog:
+    handler: src/lambda/http/createBlog.handler
     tracing: true
     events:
       - http:
           method: post
-          path: todos
+          path: blogs
           cors: true
           authorizer: Auth
           request:
             schemas:
-              application/json: ${file(models/create-todo-model.json)}
+              application/json: ${file(models/create-blog-model.json)}
     iamRoleStatements:
       - Effect: "Allow"        
         Action:
           - dynamodb:PutItem        
-        Resource: "arn:aws:dynamodb:${self:provider.region}:154524364323:table/${self:provider.environment.TODOS_TABLE}"
+        Resource: "arn:aws:dynamodb:${self:provider.region}:154524364323:table/${self:provider.environment.BLOGS_TABLE}"
 
-  UpdateTodo:
-    handler: src/lambda/http/updateTodo.handler
+  UpdateBlog:
+    handler: src/lambda/http/updateBlog.handler
     tracing: true
     events:
       - http:
           method: patch
           cors: true
-          path: todos/{todoId}
+          path: blogs/{blogId}
           authorizer: Auth
           request:
             schemas:
-              application/json: ${file(models/update-todo-model.json)}
+              application/json: ${file(models/update-blog-model.json)}
     iamRoleStatements:
       - Effect: "Allow"        
         Action:
           - dynamodb:UpdateItem        
-        Resource: "arn:aws:dynamodb:${self:provider.region}:154524364323:table/${self:provider.environment.TODOS_TABLE}"
+        Resource: "arn:aws:dynamodb:${self:provider.region}:154524364323:table/${self:provider.environment.BLOGS_TABLE}"
 
-  DeleteTodo:
-    handler: src/lambda/http/deleteTodo.handler
+  DeleteBlog:
+    handler: src/lambda/http/deleteBlog.handler
     tracing: true
     events:
       - http:
           method: delete
           cors: true
-          path: todos/{todoId}
+          path: blogs/{blogId}
           authorizer: Auth
     iamRoleStatements:
       - Effect: "Allow"        
         Action:
           - dynamodb:DeleteItem        
-        Resource: "arn:aws:dynamodb:${self:provider.region}:154524364323:table/${self:provider.environment.TODOS_TABLE}"
+        Resource: "arn:aws:dynamodb:${self:provider.region}:154524364323:table/${self:provider.environment.BLOGS_TABLE}"
 
   GenerateUploadUrl:
     handler: src/lambda/http/generateUploadUrl.handler
@@ -118,7 +118,7 @@ functions:
       - http:
           method: post
           cors: true
-          path: todos/{todoId}/attachment
+          path: blogs/{blogId}/attachment
           authorizer: Auth
     iamRoleStatements:
       - Effect: Allow
@@ -129,7 +129,7 @@ functions:
       - Effect: Allow
         Action:
           - dynamodb:UpdateItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:154524364323:table/${self:provider.environment.TODOS_TABLE}
+        Resource: arn:aws:dynamodb:${self:provider.region}:154524364323:table/${self:provider.environment.BLOGS_TABLE}
 
 resources:
   Resources:
@@ -155,25 +155,25 @@ resources:
         RestApiId:
           Ref: 'ApiGatewayRestApi'
     
-    TodosTable:
+    BlogTable:
       Type: AWS::DynamoDB::Table
       Properties:
         AttributeDefinitions:
           - AttributeName: userId
             AttributeType: S
-          - AttributeName: todoId
+          - AttributeName: blogId
             AttributeType: S
           - AttributeName: createdAt
             AttributeType: S
         KeySchema:
           - AttributeName: userId
             KeyType: HASH
-          - AttributeName: todoId
+          - AttributeName: blogId
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
-        TableName: ${self:provider.environment.TODOS_TABLE}
+        TableName: ${self:provider.environment.BLOGS_TABLE}
         GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.TODOS_CREATED_AT_INDEX}
+          - IndexName: ${self:provider.environment.BLOGS_CREATED_AT_INDEX}
             KeySchema:
               - AttributeName: userId
                 KeyType: HASH
@@ -205,7 +205,7 @@ resources:
       Type: AWS::S3::BucketPolicy
       Properties:
         PolicyDocument:
-          Id: TodoPolicy
+          Id: BlogPolicy
           Version: "2012-10-17"
           Statement:
             - Sid: PublicReadForGetBucketObjects

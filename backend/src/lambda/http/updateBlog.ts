@@ -4,7 +4,8 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
 
-import { createAttachmentPresignedUrl } from '../../businessLogic/blogs'
+import { updateBlog } from '../../businessLogic/blogs'
+import { UpdateBlogRequest } from '../../requests/UpdateBlogRequest'
 import { getUserId } from '../utils'
 
 export const handler = middy(
@@ -21,21 +22,19 @@ export const handler = middy(
           error: err
         })
       }
-    }
+    }    
     
     const blogId = event.pathParameters.blogId
-    const userId : string = getUserId(event)    
-
+    const updatedBlog: UpdateBlogRequest = JSON.parse(event.body)
+    
     try {
-      const signedUrl = await createAttachmentPresignedUrl(blogId, userId)
+      await updateBlog(blogId, getUserId(event), updatedBlog)
       return {
         statusCode: 200,
         headers: {
           'Access-Control-Allow-Origin': '*'
         },
-        body: JSON.stringify({
-          uploadUrl: signedUrl
-        })
+        body: JSON.stringify({})
       }
     } catch (err) {
       return {
@@ -59,12 +58,26 @@ handler
     })
   )
 
-function validateParameters(event) {
-if(!event) {
-  throw 'event is required'
-} else {
-  if(!event.pathParameters) {
-    throw 'id is required in path params'
+  function validateParameters(event) {
+    if(!event) {
+      throw 'event is required'
+    } else {
+      if(!event.pathParameters.blogId) {
+        throw 'blogId is required as path param'
+      }
+      if(!event.body) {
+        throw 'body is required'
+      } else {
+        const body = JSON.parse(event.body);
+        if(!body.name) {
+          throw 'name attribute required in body'
+        }
+        if(!body.dueDate) {
+          throw 'dueDate attribute required in body'
+        }
+        if(typeof body.done === 'undefined' || body.done === null) {
+          throw 'done attribute required in body'
+        }
+      }
+    }
   }
-}
-}

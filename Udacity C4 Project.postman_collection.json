@@ -6,10 +6,10 @@
 	},
 	"item": [
 		{
-			"name": "TODOs",
+			"name": "BLOGs",
 			"item": [
 				{
-					"name": "Get all todos",
+					"name": "Get all blogs",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -20,7 +20,7 @@
 							}
 						],
 						"url": {
-							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos",
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/blogs",
 							"protocol": "https",
 							"host": [
 								"{{apiId}}",
@@ -31,14 +31,14 @@
 							],
 							"path": [
 								"dev",
-								"todos"
+								"blogs"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Create todo",
+					"name": "Create blog",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -59,7 +59,7 @@
 							"raw": "{\n\t\"name\": \"Water flowers\",\n\t\"dueDate\": \"2019-06-11\"\n}"
 						},
 						"url": {
-							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos",
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/blogs",
 							"protocol": "https",
 							"host": [
 								"{{apiId}}",
@@ -70,14 +70,14 @@
 							],
 							"path": [
 								"dev",
-								"todos"
+								"blogs"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Update todo",
+					"name": "Update blog",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -98,7 +98,7 @@
 							"raw": "{\n\t\"name\": \"Change the world\",\n\t\"dueDate\": \"2019-12-11\",\n\t\"done\": true\n}"
 						},
 						"url": {
-							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/35dd600f-43c2-4649-903c-615e1586a26f",
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/blogs/35dd600f-43c2-4649-903c-615e1586a26f",
 							"protocol": "https",
 							"host": [
 								"{{apiId}}",
@@ -109,7 +109,7 @@
 							],
 							"path": [
 								"dev",
-								"todos",
+								"blogs",
 								"35dd600f-43c2-4649-903c-615e1586a26f"
 							]
 						}
@@ -117,7 +117,7 @@
 					"response": []
 				},
 				{
-					"name": "Delete todo",
+					"name": "Delete blog",
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -138,7 +138,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/fe671583-4512-45f6-9475-4265c04362fb",
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/blogs/fe671583-4512-45f6-9475-4265c04362fb",
 							"protocol": "https",
 							"host": [
 								"{{apiId}}",
@@ -149,7 +149,7 @@
 							],
 							"path": [
 								"dev",
-								"todos",
+								"blogs",
 								"fe671583-4512-45f6-9475-4265c04362fb"
 							]
 						}
@@ -172,7 +172,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/3836b777-9bc4-4429-9b79-ba4e4f5f91c0/attachment",
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/blogs/3836b777-9bc4-4429-9b79-ba4e4f5f91c0/attachment",
 							"protocol": "https",
 							"host": [
 								"{{apiId}}",
@@ -183,7 +183,7 @@
 							],
 							"path": [
 								"dev",
-								"todos",
+								"blogs",
 								"3836b777-9bc4-4429-9b79-ba4e4f5f91c0",
 								"attachment"
 							]

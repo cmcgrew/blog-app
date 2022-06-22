@@ -3,9 +3,8 @@ import 'source-map-support/register'
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
-
-import { createAttachmentPresignedUrl } from '../../businessLogic/blogs'
 import { getUserId } from '../utils'
+import { deleteBlog } from '../../businessLogic/blogs'
 
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
@@ -24,18 +23,16 @@ export const handler = middy(
     }
     
     const blogId = event.pathParameters.blogId
-    const userId : string = getUserId(event)    
-
+    const userId = getUserId(event)
+    
     try {
-      const signedUrl = await createAttachmentPresignedUrl(blogId, userId)
+      deleteBlog(blogId, userId)
       return {
         statusCode: 200,
         headers: {
           'Access-Control-Allow-Origin': '*'
         },
-        body: JSON.stringify({
-          uploadUrl: signedUrl
-        })
+        body: JSON.stringify({})
       }
     } catch (err) {
       return {
@@ -60,11 +57,11 @@ handler
   )
 
 function validateParameters(event) {
-if(!event) {
-  throw 'event is required'
-} else {
-  if(!event.pathParameters) {
-    throw 'id is required in path params'
+  if(!event) {
+    throw 'event is required'
+  } else {
+    if(!event.pathParameters) {
+      throw 'id is required in path params'
+    }
   }
-}
 }
