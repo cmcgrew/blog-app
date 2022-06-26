@@ -1,9 +1,3 @@
-Moved things around and changed the DB query.
+Blog app to post your blog entries, kind of like Reddit!
 
-Next:
-
-Need to change the 'Edit' button to be the "Add Profile Pic" button.
-
-Need to write unit tests
-
-Need to write postman tests
+Includes unit tests and postman tests.
