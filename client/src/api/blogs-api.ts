@@ -1,10 +1,10 @@
 import { apiEndpoint } from '../config'
-import { Blog } from '../types/Blog';
+import { BlogItem } from '../types/BlogItem';
 import { CreateBlogRequest } from '../types/CreateBlogRequest';
 import Axios from 'axios'
 import { UpdateBlogRequest } from '../types/UpdateBlogRequest';
 
-export async function getBlog(idToken: string): Promise<Blog[]> {
+export async function getBlog(idToken: string): Promise<BlogItem[]> {
   console.log('Fetching blogs')
 
   const response = await Axios.get(`${apiEndpoint}/blogs`, {
@@ -20,7 +20,7 @@ export async function getBlog(idToken: string): Promise<Blog[]> {
 export async function createBlog(
   idToken: string,
   newBlog: CreateBlogRequest
-): Promise<Blog> {
+): Promise<BlogItem> {
   const response = await Axios.post(`${apiEndpoint}/blogs`,  JSON.stringify(newBlog), {
     headers: {
       'Content-Type': 'application/json',

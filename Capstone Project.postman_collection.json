@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "9dc7bc5f-a0e0-4069-9f4b-a2b67e1e6d78",
-		"name": "Udacity C4 Project",
+		"_postman_id": "abc6b581-47d9-41b2-be4a-a86a2e657ca5",
+		"name": "Capstone Project",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -10,6 +10,19 @@
 			"item": [
 				{
 					"name": "Get all blogs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 when retrieving blog posts\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -39,6 +52,19 @@
 				},
 				{
 					"name": "Create blog",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201 when creating a new blog post\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -56,7 +82,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Water flowers\",\n\t\"dueDate\": \"2019-06-11\"\n}"
+							"raw": "{\n    \"title\": \"This is the title of the blog post\",\n\t\"name\": \"This is the body of the blog post\"\n}"
 						},
 						"url": {
 							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/blogs",
@@ -95,7 +121,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Change the world\",\n\t\"dueDate\": \"2019-12-11\",\n\t\"done\": true\n}"
+							"raw": "{\n    \"title\": \"The new Title\",\n\t\"name\": \"The new body\"\n}"
 						},
 						"url": {
 							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/blogs/35dd600f-43c2-4649-903c-615e1586a26f",
@@ -118,6 +144,19 @@
 				},
 				{
 					"name": "Delete blog",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 when deleting a bog post\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -237,11 +276,11 @@
 	"variable": [
 		{
 			"key": "apiId",
-			"value": "6tkpp06jw8"
+			"value": "29a5d9lqdf"
 		},
 		{
 			"key": "authToken",
-			"value": ""
+			"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Il9Md1hnUDVzZTZvcXB6d19GQm8tbyJ9.eyJpc3MiOiJodHRwczovL2Rldi12cWdkdDE3dC51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDYyNjcxNDA4MjY5MzgwNTU5NjciLCJhdWQiOiJUVGlGVG83OWFQcWlxZldKaHRTUXpPMlcybldwdk1NcyIsImlhdCI6MTY1NjI3MTEyMiwiZXhwIjoxNjU2MzA3MTIyLCJhdF9oYXNoIjoiMU5JNjI0SDIzTmRkRm1LSTB1MFI2dyIsIm5vbmNlIjoiMXh0aDdnVlhRUU9wVWp-TXhhYUR0cnRJSDEtdWRROWsifQ.sPaZmheB0t1aH_VnA0WGn-7yvG-i64ppidJlyftZEyof-eRWtvAijwezZmtXKpa4NOEtULaz7qOteY772rsTrRapUEWJQKA5dxwxVBDSkOw9mNP680mKdzgSiACqsB3W1Ub0P_tjNFhJfhb-lAFZcQEHj6AbOi8uJwJupA8TYqIjYlm7_gqDQf8I8cDZPz3mc2vagYLzl89eVCmUWuXxOwSpli5O5q0WiQbSedxOBn-HkI_balay9jMn7AVC0VAmkgyhqOc_tbnGh5rt9wnD69Bdh8b1WJ-Qki1Tf3T1jq68oAPHQtXHhEdWMzvdUGZrqIA_V-h07zQ9Ld2t9m9R8A"
 		}
 	]
 }

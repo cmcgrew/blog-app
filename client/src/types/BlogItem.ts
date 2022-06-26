@@ -1,9 +1,7 @@
-export interface Blog {
+export interface BlogItem {
   blogId: string
   createdAt: string
   title:string
   name: string
-  dueDate: string
-  done: boolean
   attachmentUrl?: string
 }

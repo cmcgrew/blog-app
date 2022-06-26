@@ -1,6 +1,6 @@
 org: cmmcgrew
-app: serverless-blog-app
-service: serverless-blog-app
+app: serverless-todo-app
+service: serverless-todo-app
 
 plugins:
   - serverless-webpack
@@ -37,7 +37,7 @@ functions:
     handler: src/lambda/auth/auth0Authorizer.handler
 
   GetBlog:
-    handler: src/lambda/http/getBlog.handler
+    handler: src/lambda/http/getBlogs.handler
     tracing: true
     events:
       - http:

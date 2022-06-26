@@ -16,7 +16,7 @@ describe('Create Blog Controller tests', () => {
 
         it('should return a BlogItem', async () => {
           let event: APIGatewayProxyEvent = {
-            body: '{"title": "Test Title", "name":"This is the body", "dueDate": "2020-09-09"}',
+            body: '{"title": "Test Title", "name":"This is the body"}',
             headers: {},
             multiValueHeaders: {},
             httpMethod: 'post',

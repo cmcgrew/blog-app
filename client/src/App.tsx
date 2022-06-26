@@ -6,7 +6,7 @@ import Auth from './auth/Auth'
 import { EditBlog } from './components/EditBlog'
 import { LogIn } from './components/LogIn'
 import { NotFound } from './components/NotFound'
-import { Blog } from './components/Blog'
+import { Blog } from './components/Blogs'
 
 export interface AppProps {}
 

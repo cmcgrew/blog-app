@@ -3,20 +3,16 @@
   "title": "group",
   "type": "object",
   "properties": {
+    "title": {
+      "type": "string"
+    },
     "name": {
       "type": "string"
-    },
-    "dueDate": {
-      "type": "string"
-    },
-    "done": {
-      "type": "boolean"
     }
   },
   "required": [
     "name",
-    "dueDate",
-    "done"
+    "title"
   ],
   "additionalProperties": false
 }

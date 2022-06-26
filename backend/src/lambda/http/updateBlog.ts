@@ -72,11 +72,8 @@ handler
         if(!body.name) {
           throw 'name attribute required in body'
         }
-        if(!body.dueDate) {
-          throw 'dueDate attribute required in body'
-        }
-        if(typeof body.done === 'undefined' || body.done === null) {
-          throw 'done attribute required in body'
+        if(!body.title) {
+          throw 'title attribute required in body'
         }
       }
     }

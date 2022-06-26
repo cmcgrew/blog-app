@@ -16,7 +16,7 @@ import {
 
 import { createBlog, deleteBlog, getBlog, patchBlog } from '../api/blogs-api'
 import Auth from '../auth/Auth'
-import { Blog } from '../types/Blog'
+import { BlogItem } from '../types/BlogItem'
 
 interface BlogProps {
   auth: Auth
@@ -24,7 +24,7 @@ interface BlogProps {
 }
 
 interface BlogState {
-  blogs: Blog[]
+  blogs: BlogItem[]
   newBlogTitle: string
   newBlogName: string
   loadingBlog: boolean
@@ -52,11 +52,9 @@ export class Blog extends React.PureComponent<BlogProps, BlogState> {
 
   onBlogCreate = async (event: React.ChangeEvent<HTMLButtonElement>) => {
     try {
-      const dueDate = this.calculateDueDate()
       const newBlog = await createBlog(this.props.auth.getIdToken(), {
         title: this.state.newBlogTitle,
-        name: this.state.newBlogName,
-        dueDate
+        name: this.state.newBlogName
       })
 
       this.setState({
@@ -79,24 +77,6 @@ export class Blog extends React.PureComponent<BlogProps, BlogState> {
       alert('Blog deletion failed')
     }
   }
-
-  // onBlogCheck = async (pos: number) => {
-  //   try {
-  //     const blog = this.state.blogs[pos]
-  //     await patchBlog(this.props.auth.getIdToken(), blog.blogId, {
-  //       name: blog.name,
-  //       dueDate: blog.dueDate,
-  //       done: !blog.done
-  //     })
-  //     this.setState({
-  //       blogs: update(this.state.blogs, {
-  //         [pos]: { done: { $set: !blog.done } }
-  //       })
-  //     })
-  //   } catch {
-  //     alert('Blog deletion failed')
-  //   }
-  // }
 
   async componentDidMount() {
     try {
@@ -188,17 +168,7 @@ export class Blog extends React.PureComponent<BlogProps, BlogState> {
               <Grid.Column width={10} verticalAlign="middle">
                 {blog.name}
               </Grid.Column>
-              {/* <Grid.Column width={3} floated="right">
-                {blog.dueDate}
-              </Grid.Column> */}
               <Grid.Column width={1} floated="right">
-                {/* <Button
-                  icon
-                  color="blue"
-                  onClick={() => this.onEditButtonClick(blog.blogId)}
-                >
-                  <Icon name="picture" />
-                </Button> */}
               </Grid.Column>
               <Grid.Column width={1} floated="right">
               <Button
@@ -215,11 +185,6 @@ export class Blog extends React.PureComponent<BlogProps, BlogState> {
                 >
                   <Icon name="delete" />
                 </Button>
-              {/* </Grid.Column>
-              {blog.attachmentUrl && (
-                <Image src={blog.attachmentUrl} size="small" wrapped />
-              )}
-              <Grid.Column width={16}> */}
                 <Divider />
               </Grid.Column>
               <Grid.Column width={5} verticalAlign="middle">
@@ -236,12 +201,5 @@ export class Blog extends React.PureComponent<BlogProps, BlogState> {
         })}
       </Grid>
     )
-  }
-
-  calculateDueDate(): string {
-    const date = new Date()
-    date.setDate(date.getDate() + 7)
-
-    return dateFormat(date, 'yyyy-mm-dd') as string
   }
 }
